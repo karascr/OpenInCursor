@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="vsshlids.h"/>
+  <Commands package="guidOpenInCursorPkg">
+    <Groups>
+      <Group guid="guidOpenInCursorCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </Group>
+    </Groups>
+    <Buttons>
+      <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorId" priority="0x0100" type="Button">
+        <Parent guid="guidOpenInCursorCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>Open in Cursor</ButtonText>
+          <CommandName>OpenInCursor</CommandName>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+  <Symbols>
+    <GuidSymbol name="guidOpenInCursorPkg" value="{a7fd7efd-fb26-4ae2-b888-221254ed76c4}"/>
+    <GuidSymbol name="guidOpenInCursorCmdSet" value="{a7fd7efd-fb26-4ae2-b888-221254ed76c4}">
+      <IDSymbol name="MyMenuGroup" value="0x1020"/>
+      <IDSymbol name="OpenInCursorId" value="0x0100"/>
+    </GuidSymbol>
+  </Symbols>
+</CommandTable> 

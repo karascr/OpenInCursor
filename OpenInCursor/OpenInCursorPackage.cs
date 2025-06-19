@@ -26,8 +26,9 @@ namespace OpenInCursor
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(UIContextGuids.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(OpenInCursorPackage.PackageGuidString)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class OpenInCursorPackage : AsyncPackage
     {
         /// <summary>
@@ -50,8 +51,8 @@ namespace OpenInCursor
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             
-            // Add logging to verify initialization
-            await OutputWindowPaneAsync("OpenInCursor package is being initialized...");
+            // Initialize the command
+            await OpenInCursorCommand.InitializeAsync(this);
         }
 
         private async Task OutputWindowPaneAsync(string message)
