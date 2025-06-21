@@ -55,6 +55,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Muhammet KARA**
 
+## Planned Features
+
+The following features are planned for future releases:
+
+- **Settings Integration**: Add option to configure custom Cursor.exe location in Visual Studio settings
+- **Solution Explorer Menu**: Add "Open in Cursor" option to Solution Explorer context menu for entire solutions and projects
+- **Previous Visual Studio Versions Support**: Add compatibility with Visual Studio 2019 and Visual Studio 2017
+
 ## Version History
 
 - **1.0.0** - Initial release
