@@ -11,7 +11,7 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 ## Screenshots
 
 ### Context Menu Integration
-![context-menu.png](images/context-menu.png)
+![context-menu.png](context-menu.png)
 
 *Right-click on any file in Solution Explorer to see the "Open in Cursor" option*
 
@@ -22,12 +22,6 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 1. Open **Extensions** > **Manage Extensions** in Visual Studio
 2. Search for "Open in Cursor"
 3. Click **Download** and restart Visual Studio
-
-### From VSIX File
-1. Download the latest VSIX file from [Releases](https://github.com/muhammetkara/OpenInCursor/releases)
-2. In Visual Studio, go to **Extensions** > **Manage Extensions**
-3. Click **Install from VSIX** and select the downloaded file
-4. Restart Visual Studio when prompted
 
 ## Prerequisites
 
