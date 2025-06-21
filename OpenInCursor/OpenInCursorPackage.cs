@@ -5,6 +5,7 @@ using System.Threading;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Threading;
 
 namespace OpenInCursor
 {
@@ -60,10 +61,13 @@ namespace OpenInCursor
             await JoinableTaskFactory.SwitchToMainThreadAsync();
             IVsOutputWindow outWindow = await GetServiceAsync(typeof(SVsOutputWindow)) as IVsOutputWindow;
             
-            Guid generalPaneGuid = VSConstants.GUID_OutWindowGeneralPane;
-            if (outWindow.GetPane(ref generalPaneGuid, out IVsOutputWindowPane generalPane) == Microsoft.VisualStudio.VSConstants.S_OK)
+            if (outWindow != null)
             {
-                generalPane.OutputString(message + Environment.NewLine);
+                Guid generalPaneGuid = VSConstants.GUID_OutWindowGeneralPane;
+                if (outWindow.GetPane(ref generalPaneGuid, out IVsOutputWindowPane generalPane) == Microsoft.VisualStudio.VSConstants.S_OK)
+                {
+                    generalPane?.OutputString(message + Environment.NewLine);
+                }
             }
         }
 

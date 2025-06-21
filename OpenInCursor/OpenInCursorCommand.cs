@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Threading;
 using Task = System.Threading.Tasks.Task;
 using Microsoft.VisualStudio;
 
@@ -76,7 +77,10 @@ namespace OpenInCursor
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new OpenInCursorCommand(package, commandService);
+            if (commandService != null)
+            {
+                Instance = new OpenInCursorCommand(package, commandService);
+            }
         }
 
         /// <summary>
@@ -89,38 +93,78 @@ namespace OpenInCursor
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            _ = ExecuteAsync().ConfigureAwait(false);
+        }
 
-            // Get the current document path
-            var dte = (EnvDTE.DTE)ServiceProvider.GetServiceAsync(typeof(EnvDTE.DTE)).Result;
-            var activeDocument = dte.ActiveDocument;
+        private string FindCursorExecutable()
+        {
+            string cursorExePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+                "Programs", "cursor", "cursor.exe");
             
-            if (activeDocument != null)
+            return File.Exists(cursorExePath) ? cursorExePath : null;
+        }
+
+        private async Task ExecuteAsync()
+        {
+            try
             {
-                string filePath = activeDocument.FullName;
-                if (File.Exists(filePath))
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+                // Get the current document path
+                var dte = await ServiceProvider.GetServiceAsync(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+                if (dte?.ActiveDocument != null)
                 {
-                    try
+                    string filePath = dte.ActiveDocument.FullName;
+                    if (File.Exists(filePath))
                     {
-                        // Launch Cursor with the file path
-                        Process.Start(new ProcessStartInfo
+                        try
                         {
-                            FileName = "cursor",
-                            Arguments = $"\"{filePath}\"",
-                            UseShellExecute = true
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        // Show error message
-                        VsShellUtilities.ShowMessageBox(
-                            this.package,
-                            $"Failed to open file in Cursor: {ex.Message}",
-                            "Open in Cursor",
-                            OLEMSGICON.OLEMSGICON_CRITICAL,
-                            OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                            OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                            string cursorPath = FindCursorExecutable();
+                            if (string.IsNullOrEmpty(cursorPath))
+                            {
+                                VsShellUtilities.ShowMessageBox(
+                                    this.package,
+                                    "Cursor not found. Please make sure Cursor is installed.",
+                                    "Open in Cursor",
+                                    OLEMSGICON.OLEMSGICON_WARNING,
+                                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                                return;
+                            }
+
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = cursorPath,
+                                Arguments = $"\"{filePath}\"",
+                                UseShellExecute = false,
+                                CreateNoWindow = true,
+                                WindowStyle = ProcessWindowStyle.Hidden
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            VsShellUtilities.ShowMessageBox(
+                                this.package,
+                                $"Failed to open file in Cursor: {ex.Message}",
+                                "Open in Cursor",
+                                OLEMSGICON.OLEMSGICON_CRITICAL,
+                                OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                VsShellUtilities.ShowMessageBox(
+                    this.package,
+                    $"An error occurred: {ex.Message}",
+                    "Open in Cursor",
+                    OLEMSGICON.OLEMSGICON_CRITICAL,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
             }
         }
     }
