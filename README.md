@@ -24,7 +24,7 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 3. Click **Download** and restart Visual Studio
 
 ### From VSIX File
-1. Download the latest VSIX file from [Releases](https://github.com/muhammetkara/OpenInCursor/releases)
+1. Download the latest VSIX file from [Releases](https://github.com/karascr/OpenInCursor/releases)
 2. In Visual Studio, go to **Extensions** > **Manage Extensions**
 3. Click **Install from VSIX** and select the downloaded file
 4. Restart Visual Studio when prompted
@@ -71,4 +71,4 @@ The following features are planned for future releases:
 
 ## Support
 
-If you encounter any issues or have suggestions, please [open an issue](https://github.com/muhammetkara/OpenInCursor/issues) on GitHub. 
+If you encounter any issues or have suggestions, please [open an issue](https://github.com/karascr/OpenInCursor/issues) on GitHub. 
