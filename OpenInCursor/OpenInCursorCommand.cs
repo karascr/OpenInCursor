@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.IO;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -96,15 +95,6 @@ namespace OpenInCursor
             _ = ExecuteAsync().ConfigureAwait(false);
         }
 
-        private string FindCursorExecutable()
-        {
-            string cursorExePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "Programs", "cursor", "cursor.exe");
-            
-            return File.Exists(cursorExePath) ? cursorExePath : null;
-        }
-
         private async Task ExecuteAsync()
         {
             try
@@ -113,58 +103,33 @@ namespace OpenInCursor
 
                 // Get the current document path
                 var dte = await ServiceProvider.GetServiceAsync(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-                if (dte?.ActiveDocument != null)
+                if (dte == null)
+                {
+                    CursorUtility.ShowErrorMessage(this.package, "Could not access Visual Studio DTE service.");
+                    return;
+                }
+
+                if (dte.ActiveDocument != null)
                 {
                     string filePath = dte.ActiveDocument.FullName;
                     if (File.Exists(filePath))
                     {
-                        try
-                        {
-                            string cursorPath = FindCursorExecutable();
-                            if (string.IsNullOrEmpty(cursorPath))
-                            {
-                                VsShellUtilities.ShowMessageBox(
-                                    this.package,
-                                    "Cursor not found. Please make sure Cursor is installed.",
-                                    "Open in Cursor",
-                                    OLEMSGICON.OLEMSGICON_WARNING,
-                                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-                                return;
-                            }
-
-                            Process.Start(new ProcessStartInfo
-                            {
-                                FileName = cursorPath,
-                                Arguments = $"\"{filePath}\"",
-                                UseShellExecute = false,
-                                CreateNoWindow = true,
-                                WindowStyle = ProcessWindowStyle.Hidden
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            VsShellUtilities.ShowMessageBox(
-                                this.package,
-                                $"Failed to open file in Cursor: {ex.Message}",
-                                "Open in Cursor",
-                                OLEMSGICON.OLEMSGICON_CRITICAL,
-                                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-                        }
+                        CursorUtility.OpenInCursor(this.package, filePath);
                     }
+                    else
+                    {
+                        CursorUtility.ShowWarningMessage(this.package, "Active document file not found.");
+                    }
+                }
+                else
+                {
+                    CursorUtility.ShowWarningMessage(this.package, "No active document found.");
                 }
             }
             catch (Exception ex)
             {
                 await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                VsShellUtilities.ShowMessageBox(
-                    this.package,
-                    $"An error occurred: {ex.Message}",
-                    "Open in Cursor",
-                    OLEMSGICON.OLEMSGICON_CRITICAL,
-                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                CursorUtility.ShowErrorMessage(this.package, $"An error occurred: {ex.Message}");
             }
         }
     }

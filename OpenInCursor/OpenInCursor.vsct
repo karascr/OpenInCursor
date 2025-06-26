@@ -6,22 +6,95 @@
       <Group guid="guidOpenInCursorCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
+      
+      <Group guid="guidOpenInCursorCmdSet" id="SolutionExplorerItemGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      </Group>
+      
+      <Group guid="guidOpenInCursorCmdSet" id="SolutionExplorerFolderGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
+      </Group>
+      
+      <Group guid="guidOpenInCursorCmdSet" id="SolutionExplorerProjectGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+      </Group>
+      
+      <Group guid="guidOpenInCursorCmdSet" id="SolutionExplorerSolutionGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE"/>
+      </Group>
     </Groups>
+    
     <Buttons>
       <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorId" priority="0x0100" type="Button">
         <Parent guid="guidOpenInCursorCmdSet" id="MyMenuGroup"/>
+        <Icon guid="guidCursorIcon" id="cursorIcon" />
         <Strings>
           <ButtonText>Open in Cursor</ButtonText>
           <CommandName>OpenInCursor</CommandName>
         </Strings>
       </Button>
+      
+      <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorFileId" priority="0x0100" type="Button">
+        <Parent guid="guidOpenInCursorCmdSet" id="SolutionExplorerItemGroup"/>
+        <Icon guid="guidCursorIcon" id="cursorIcon" />
+        <Strings>
+          <ButtonText>Open in Cursor</ButtonText>
+          <CommandName>OpenInCursorFile</CommandName>
+        </Strings>
+      </Button>
+      
+      <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorFolderId" priority="0x0100" type="Button">
+        <Parent guid="guidOpenInCursorCmdSet" id="SolutionExplorerFolderGroup"/>
+        <Icon guid="guidCursorIcon" id="cursorIcon" />
+        <Strings>
+          <ButtonText>Open in Cursor</ButtonText>
+          <CommandName>OpenInCursorFolder</CommandName>
+        </Strings>
+      </Button>
+      
+      <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorProjectId" priority="0x0100" type="Button">
+        <Parent guid="guidOpenInCursorCmdSet" id="SolutionExplorerProjectGroup"/>
+        <Icon guid="guidCursorIcon" id="cursorIcon" />
+        <Strings>
+          <ButtonText>Open in Cursor</ButtonText>
+          <CommandName>OpenInCursorProject</CommandName>
+        </Strings>
+      </Button>
+      
+      <Button guid="guidOpenInCursorCmdSet" id="OpenInCursorSolutionId" priority="0x0100" type="Button">
+        <Parent guid="guidOpenInCursorCmdSet" id="SolutionExplorerSolutionGroup"/>
+        <Icon guid="guidCursorIcon" id="cursorIcon" />
+        <Strings>
+          <ButtonText>Open in Cursor</ButtonText>
+          <CommandName>OpenInCursorSolution</CommandName>
+        </Strings>
+      </Button>
     </Buttons>
+    
+    <Bitmaps>
+      <Bitmap guid="guidCursorIcon" href="icons\context-menu-icon.png" usedList="cursorIcon"/>
+    </Bitmaps>
   </Commands>
+  
   <Symbols>
     <GuidSymbol name="guidOpenInCursorPkg" value="{a7fd7efd-fb26-4ae2-b888-221254ed76c4}"/>
     <GuidSymbol name="guidOpenInCursorCmdSet" value="{a7fd7efd-fb26-4ae2-b888-221254ed76c4}">
       <IDSymbol name="MyMenuGroup" value="0x1020"/>
       <IDSymbol name="OpenInCursorId" value="0x0100"/>
+      
+      <IDSymbol name="SolutionExplorerItemGroup" value="0x1021"/>
+      <IDSymbol name="SolutionExplorerFolderGroup" value="0x1022"/>
+      <IDSymbol name="SolutionExplorerProjectGroup" value="0x1023"/>
+      <IDSymbol name="SolutionExplorerSolutionGroup" value="0x1024"/>
+      
+      <IDSymbol name="OpenInCursorFileId" value="0x0101"/>
+      <IDSymbol name="OpenInCursorFolderId" value="0x0102"/>
+      <IDSymbol name="OpenInCursorProjectId" value="0x0103"/>
+      <IDSymbol name="OpenInCursorSolutionId" value="0x0104"/>
+    </GuidSymbol>
+    
+    <GuidSymbol name="guidCursorIcon" value="{f9c1b7a3-4b8d-4f2a-8c6d-1e5f8a9b2c3d}">
+      <IDSymbol name="cursorIcon" value="1"/>
     </GuidSymbol>
   </Symbols>
 </CommandTable> 

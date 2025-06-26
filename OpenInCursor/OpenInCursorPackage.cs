@@ -52,8 +52,9 @@ namespace OpenInCursor
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             
-            // Initialize the command
+            // Initialize the commands
             await OpenInCursorCommand.InitializeAsync(this);
+            await SolutionExplorerCommand.InitializeAsync(this);
         }
 
         private async Task OutputWindowPaneAsync(string message)

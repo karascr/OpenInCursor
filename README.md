@@ -5,16 +5,25 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 ## Features
 
 - **Right-click Context Menu Integration**: Seamlessly integrated into Visual Studio's context menu
-- **Direct File Opening**: Opens files directly in Cursor editor without any intermediate steps
-
+- **Code Editor Support**: Open currently active file in Cursor editor
+- **Solution Explorer Integration**: 
+  - Open individual files directly in Cursor
+  - Open folders as workspace in Cursor
+  - Open entire projects as workspace in Cursor
+  - Open complete solutions as workspace in Cursor
+- **Visual Menu Icons**: Clear visual icons in context menus for easy identification
+- **Smart Path Detection**: Automatically detects Cursor installation location
+- **Error Handling**: Clear error messages for common issues
 
 ## Screenshots
 
 ### Context Menu Integration
-![context-menu.png](images/context-menu.png)
+![code-editor-context-menu.png](images/code-editor-context-menu.png)
+*Right-click on any file in Text Editor to see the "Open in Cursor" option*
 
-*Right-click on any file in Solution Explorer to see the "Open in Cursor" option*
-
+### Solution Explorer Menu Integration
+![solution-explorer-context-menu.png](images/solution-explorer-context-menu.png)
+*Right-click on any item in Solution Explorer to see the "Open in Cursor" option*
 
 ## Installation
 
@@ -22,12 +31,6 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 1. Open **Extensions** > **Manage Extensions** in Visual Studio
 2. Search for "Open in Cursor"
 3. Click **Download** and restart Visual Studio
-
-### From VSIX File
-1. Download the latest VSIX file from [Releases](https://github.com/karascr/OpenInCursor/releases)
-2. In Visual Studio, go to **Extensions** > **Manage Extensions**
-3. Click **Install from VSIX** and select the downloaded file
-4. Restart Visual Studio when prompted
 
 ## Prerequisites
 
@@ -37,33 +40,44 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 
 ## Usage
 
-1. **Right-click** on any file in Solution Explorer
-2. Select **"Open in Cursor"** from the context menu
-3. The file will open directly in Cursor editor
-.
+### From Code Editor
+1. Open any file in Visual Studio
+2. **Right-click** in the code editor
+3. Select **"Open in Cursor"** from the context menu
+4. The file will open directly in Cursor editor
 
+### From Solution Explorer
+1. **Right-click** on any item in Solution Explorer:
+   - **Files**: Opens the file directly in Cursor
+   - **Folders**: Opens the folder as a workspace in Cursor
+   - **Projects**: Opens the project folder as a workspace in Cursor
+   - **Solutions**: Opens the solution folder as a workspace in Cursor
+2. Select **"Open in Cursor"** from the context menu
+3. The selected item will open in Cursor editor
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Author
-
-**Muhammet KARA**
 
 ## Planned Features
 
 The following features are planned for future releases:
 
 - **Settings Integration**: Add option to configure custom Cursor.exe location in Visual Studio settings
-- **Solution Explorer Menu**: Add "Open in Cursor" option to Solution Explorer context menu for entire solutions and projects
 - **Previous Visual Studio Versions Support**: Add compatibility with Visual Studio 2019 and Visual Studio 2017
 
 ## Version History
+
+- **1.1.0** - Solution Explorer Integration
+  - Added "Open in Cursor" to Solution Explorer context menus
+  - Support for opening files, folders, projects, and solutions
+  - Added visual icons to all context menu options
+  - Improved error handling and user feedback
+  - Code refactoring and optimization
+
+- **1.0.1** - Visual Updates
+  - Updated extension logo and visual identity
+  - Minor visual improvements
 
 - **1.0.0** - Initial release
   - Basic right-click context menu integration

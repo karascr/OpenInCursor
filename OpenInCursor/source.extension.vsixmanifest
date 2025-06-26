@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="OpenInCursor.c629e693-a431-44f6-9cd4-7cf389c2c36e" Version="1.0.1" Language="en-US" Publisher="Muhammet KARA" />
+        <Identity Id="OpenInCursor.c629e693-a431-44f6-9cd4-7cf389c2c36e" Version="1.1.0" Language="en-US" Publisher="Muhammet KARA" />
         <DisplayName>Open in Cursor</DisplayName>
-        <Description xml:space="preserve">Quickly open files from Visual Studio in Cursor editor with a simple right-click context menu option.</Description>
-        <Icon>icon.png</Icon>
-        <PreviewImage>icon.png</PreviewImage>
-        <Tags>cursor, editor, development, productivity</Tags>
+        <Description xml:space="preserve">Quickly open files, folders, projects, and solutions from Visual Studio in Cursor editor with a simple right-click context menu option. Supports both code editor and Solution Explorer integration.</Description>
+        <Icon>icons\extension-logo.png</Icon>
+        <PreviewImage>icons\extension-logo.png</PreviewImage>
+        <Tags>cursor, editor, development, productivity, solution explorer</Tags>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">

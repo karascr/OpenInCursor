@@ -48,6 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenInCursorPackage.cs" />
     <Compile Include="OpenInCursorCommand.cs" />
+    <Compile Include="SolutionExplorerCommand.cs" />
+    <Compile Include="CursorUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
@@ -74,10 +76,15 @@
   <ItemGroup>
     <VSCTCompile Include="OpenInCursor.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="icon.png">
+    <Content Include="icons\context-menu-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="icons\extension-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
