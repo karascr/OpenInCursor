@@ -114,7 +114,13 @@ namespace OpenInCursor
                     string filePath = dte.ActiveDocument.FullName;
                     if (File.Exists(filePath))
                     {
-                        CursorUtility.OpenInCursor(this.package, filePath);
+                        // 获取当前光标位置
+                        var selection = dte.ActiveDocument.Selection as EnvDTE.TextSelection;
+                        int currentLine = selection?.CurrentLine ?? 1;
+                        int currentColumn = selection?.CurrentColumn ?? 1;
+                        
+                        // 使用位置信息启动Cursor
+                        CursorUtility.OpenInCursor(this.package, filePath, currentLine, currentColumn);
                     }
                     else
                     {

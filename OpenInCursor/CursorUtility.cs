@@ -32,6 +32,19 @@ namespace OpenInCursor
         /// <returns>True if successful, false otherwise</returns>
         public static bool OpenInCursor(AsyncPackage package, string path)
         {
+            return OpenInCursor(package, path, -1, -1);
+        }
+
+        /// <summary>
+        /// Opens a file in Cursor at specific line and column position
+        /// </summary>
+        /// <param name="package">The VS package for showing error messages</param>
+        /// <param name="path">Path to open in Cursor</param>
+        /// <param name="line">Line number (1-based), -1 to ignore</param>
+        /// <param name="column">Column number (1-based), -1 to ignore</param>
+        /// <returns>True if successful, false otherwise</returns>
+        public static bool OpenInCursor(AsyncPackage package, string path, int line, int column)
+        {
             if (string.IsNullOrEmpty(path))
             {
                 ShowErrorMessage(package, "No path provided.");
@@ -54,10 +67,28 @@ namespace OpenInCursor
 
             try
             {
+                // 构建启动参数
+                string arguments;
+                if (line > 0 && column > 0)
+                {
+                    // 使用goto参数定位到指定行和列
+                    arguments = $"-g \"{path}:{line}:{column}\"";
+                }
+                else if (line > 0)
+                {
+                    // 只定位到指定行
+                    arguments = $"-g \"{path}:{line}\"";
+                }
+                else
+                {
+                    // 普通打开文件
+                    arguments = $"\"{path}\"";
+                }
+
                 System.Diagnostics.Process.Start(new ProcessStartInfo
                 {
                     FileName = cursorPath,
-                    Arguments = $"\"{path}\"",
+                    Arguments = arguments,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden
