@@ -19,10 +19,12 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 
 ### Context Menu Integration
 ![image.png](image.png)
+
 *Right-click on any file in Text Editor to see the "Open in Cursor" option*
 
 ### Solution Explorer Menu Integration
 ![image__1.png](image__1.png)
+
 *Right-click on any item in Solution Explorer to see the "Open in Cursor" option*
 
 ## Installation
@@ -31,12 +33,6 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 1. Open **Extensions** > **Manage Extensions** in Visual Studio
 2. Search for "Open in Cursor"
 3. Click **Download** and restart Visual Studio
-
-## Prerequisites
-
-- Visual Studio 2022 (Community, Professional, or Enterprise)
-- Cursor editor installed on your system
-- .NET Framework 4.7.2 or higher
 
 ## Usage
 
