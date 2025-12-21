@@ -1,8 +1,8 @@
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace OpenInCursor
 {
@@ -11,17 +11,76 @@ namespace OpenInCursor
     /// </summary>
     internal static class CursorUtility
     {
+        // Cache for the Cursor executable path
+        private static string _cachedCursorPath;
+        private static bool _hasSearched = false;
+
         /// <summary>
-        /// Finds the Cursor executable path
+        /// Finds the Cursor executable path from PATH environment variable.
+        /// Uses lazy initialization - called automatically on first use.
         /// </summary>
-        /// <returns>Path to cursor.exe if found, null otherwise</returns>
-        public static string FindCursorExecutable()
+        private static void FindCursorExecutable()
         {
-            string cursorExePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
-                "Programs", "cursor", "cursor.exe");
+            // Return if already searched
+            if (_hasSearched)
+            {
+                return;
+            }
+
+            // Search in PATH environment variable
+            string pathEnv = Environment.GetEnvironmentVariable("PATH");
+            if (!string.IsNullOrEmpty(pathEnv))
+            {
+                var pathDirectories = pathEnv.Split(Path.PathSeparator);
+
+                // Look for directories containing "cursor" in their path
+                foreach (var directory in pathDirectories)
+                {
+                    if (string.IsNullOrWhiteSpace(directory))
+                        continue;
+
+                    try
+                    {
+                        // Check if the directory path contains "cursor" (case-insensitive)
+                        if (directory.IndexOf("cursor", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            string cursorExePath = Path.Combine(directory, "cursor.cmd");
+                            if (File.Exists(cursorExePath))
+                            {
+                                _cachedCursorPath = cursorExePath;
+                                _hasSearched = true;
+                                return;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // Ignore invalid paths or access errors
+                        continue;
+                    }
+                }
+            }
+
+            // Mark as searched even if not found
+            // Don't show error during initialization to avoid UI deadlock
+            _hasSearched = true;
+            _cachedCursorPath = null;
+        }
+
+        /// <summary>
+        /// Gets the cached Cursor executable path.
+        /// If not searched yet, performs the search on first call (lazy initialization).
+        /// </summary>
+        /// <returns>Path to cursor.cmd if found, null otherwise</returns>
+        private static string GetCursorPath()
+        {
+            // Lazy initialization: search on first use
+            if (!_hasSearched)
+            {
+                FindCursorExecutable();
+            }
             
-            return File.Exists(cursorExePath) ? cursorExePath : null;
+            return _cachedCursorPath;
         }
 
         /// <summary>
@@ -45,10 +104,15 @@ namespace OpenInCursor
                 return false;
             }
 
-            string cursorPath = FindCursorExecutable();
+            string cursorPath = GetCursorPath();
             if (string.IsNullOrEmpty(cursorPath))
             {
-                ShowWarningMessage(package, "Cursor not found. Please make sure Cursor is installed.");
+                ShowErrorMessage(package, 
+                    "Cursor executable not found in PATH.\n\n" +
+                    "Please make sure:\n" +
+                    "1. Cursor is installed\n" +
+                    "2. Cursor is added to your system PATH\n" +
+                    "3. Visual Studio is restarted after adding to PATH");
                 return false;
             }
 
@@ -103,4 +167,4 @@ namespace OpenInCursor
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
     }
-} 
+}
