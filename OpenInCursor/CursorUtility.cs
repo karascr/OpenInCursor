@@ -131,21 +131,21 @@ namespace OpenInCursor
 
             try
             {
-                // 构建启动参数
+                // Build launch arguments
                 string arguments;
                 if (line > 0 && column > 0)
                 {
-                    // 使用goto参数定位到指定行和列
+                    // Use goto parameter to navigate to specified line and column
                     arguments = $"-g \"{path}:{line}:{column}\"";
                 }
                 else if (line > 0)
                 {
-                    // 只定位到指定行
+                    // Only navigate to specified line
                     arguments = $"-g \"{path}:{line}\"";
                 }
                 else
                 {
-                    // 普通打开文件
+                    // Open file normally
                     arguments = $"\"{path}\"";
                 }
 
