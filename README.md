@@ -13,6 +13,7 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
   - Open complete solutions as workspace in Cursor
 - **Visual Menu Icons**: Clear visual icons in context menus for easy identification
 - **Smart Path Detection**: Automatically detects Cursor installation location
+- **Precise Cursor Positioning**: Opens files at exact line and character position
 
 ## Screenshots
 
@@ -53,14 +54,14 @@ A Visual Studio extension that allows you to quickly open files from Visual Stud
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Planned Features
-
-The following features are planned for future releases:
-
-- **Settings Integration**: Add option to configure custom Cursor.exe location in Visual Studio settings
-- **Previous Visual Studio Versions Support**: Add compatibility with Visual Studio 2019 and Visual Studio 2017
 
 ## Version History
+
+- **1.2.0** - Enhanced Cursor Integration & VS 2026 Support
+  - Added support for Visual Studio 2026 (18.x)
+  - **Auto path detection** for Cursor executable in system PATH
+  - **Line and character positioning** - opens files at exact cursor location
+  - Minor improvements and optimizations
 
 - **1.1.0** - Solution Explorer Integration
   - Added "Open in Cursor" to Solution Explorer context menus
